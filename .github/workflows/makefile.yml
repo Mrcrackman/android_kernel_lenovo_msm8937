@@ -38,13 +38,13 @@ jobs:
           echo "DTBO_IMG=$dtbo_img" >> $GITHUB_ENV
           echo "ZIP_NAME=kernel_${{ github.run_number }}_${{ github.sha }}" >> $GITHUB_ENV
       - name: Upload img file
-        uses: actions/upload-artifact@v2
+        uses: dabao1955/kernel_build_action@main
         with:
           name: kernel-img
           path: out/img/
 
       - name: Upload files to repository releases page
-        uses: softprops/action-gh-release@v1
+        uses: actions/checkout@v3
         with:
           files: |
             ${{ env.KERNEL_ZIP }}
@@ -52,7 +52,7 @@ jobs:
           name: ${{ env.ZIP_NAME }}
           tag_name: ${{ github.run_id }}
           body: |
-            Kernel build for Samsung Tab A7 GTA4L T505N
+            Kernel build for Lenovo k6 note karatep
       - name: Save and Upload Build Log
         run: |
           bash tools/build/build.sh 2>&1 | tee log.txt
