@@ -25,10 +25,13 @@ jobs:
 
       - name: Start Compilation
         run: export arch=arm64
-            make karatep_defconfig
-            make
-        
 
+      - name: makeing
+      run: make karatep_defconfig
+
+      - name: okkk
+      run: make
+      
       - name: Set-up files
         run: |
           # Set-up files info
