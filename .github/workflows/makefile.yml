@@ -21,13 +21,9 @@ jobs:
           aosp-clang: true
           android-version: 11
           aosp-clang-version: r383902
-    runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: configure
-      run: ./configure
+    - name: test
+      run: ./test
 
     - name: Install dependencies
       run: make
