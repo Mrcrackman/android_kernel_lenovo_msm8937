@@ -26,7 +26,10 @@ jobs:
         run: git clone https://github.com/MohamedDevvv/android_kernel_lenovo_msm8937
 
       - name: Start Compilation
-        run: bash build_kernel.sh
+        run: make karatep_defconfig
+            export arch=arm64
+            make
+        
 
       - name: Set-up files
         run: |
