@@ -1,23 +1,46 @@
-name: CI
+name: Build kernel lenovo
 
 on:
   workflow_dispatch:
 
 jobs:
-  build-kernel:
-    name: Build Kernel
-    runs-on: ubuntu-20.04
+  Kernel:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+       shell: bash
+       working-directory: ${{ github.workspace }}
+
     steps:
-      - name: Build
-        uses: dabao1955/kernel_build_action@main
+      - name: Cleanup
+        run: rm -rf ${{ github.workspace }}/*
+
+      - name: Set-up environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential bc lld gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi libssl-dev libfl-dev llvm
+          sudo apt-get install -y curl git ftp lftp wget libarchive-tools ccache python2 python2-dev
+          sudo apt-get install -y zip unzip tar gzip bzip2 rar unrar cpio jq
+          
+      - name: Clone kernel source
+        run: git clone https://github.com/MohamedDevvv/android_kernel_lenovo_msm8937
+
+      - name: Start Compilation
+        run: bash build_kernel.sh
+
+      - name: Set-up files
+        run: |
+          # Set-up files info
+            zip_file=$(find $HOME -name 'Spider*.zip' -print -quit)
+            echo "ZIP_FILE=$zip_file" >> $GITHUB_ENV
+            echo "ZIP_NAME=$(basename "$zip_file" .zip)" >> $GITHUB_ENV
+
+      - name: Upload files to repository releases page
+        uses: softprops/action-gh-release@v1
         with:
-          kernel-url: https://github.com/MohamedDevvv/android_kernel_lenovo_msm8937
-          kernel-branch: lineage-18.1
-          config: karatep_defconfig
-          arch: arm64
-          compiler: gcc/11
-          aosp-clang: false
-          android-version: 11
-          aosp-clang-version: r383902
-          android-ndk: false
-          android-ndk-version: false
+          files: |
+            ${{ env.ZIP_FILE }}
+          name: ${{ env.ZIP_NAME }}
+          tag_name: ${{ github.run_id }}
+          body: |
+            Non KernelSU
