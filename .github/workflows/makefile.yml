@@ -26,3 +26,12 @@ jobs:
           aosp-clang-version: r383902
           disable-lto: true
           anykernel3: true
+          
+    - name: Install dependencies
+      run: make
+
+    - name: Run check
+      run: make check
+
+    - name: Run distcheck
+      run: make distcheck
