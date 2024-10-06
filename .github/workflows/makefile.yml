@@ -1,4 +1,4 @@
-name: Makefile CI
+name: test
 
 on:
   push:
@@ -7,8 +7,21 @@ on:
     branches: [ "lineage-18.1" ]
 
 jobs:
-  build:
-
+build-kernel:
+    name: Build Kernel
+    runs-on: ubuntu-20.04
+    steps:
+      - name: test
+        uses: dabao1955/kernel_build_action@main
+        with:
+          kernel-url: https://github.com/MohamedDevvv/android_kernel_lenovo_msm8937
+          kernel-branch: taffy
+          config: karatep_defconfig
+          arch: arm64
+          aosp-gcc: true
+          aosp-clang: true
+          android-version: 11
+          aosp-clang-version: r383902
     runs-on: ubuntu-latest
 
     steps:
