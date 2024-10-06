@@ -25,6 +25,15 @@ jobs:
       - name: Compile Kernel Image
         run: |
           make O=out ARCH=arm64 SUBARCH=arm64 karatep_defconfig CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- Image.gz-dtb
+
+      - name: configuration
+        uses: dabao1955/kernel_build_action@main
+        with:
+          kernel-url: https://github.com/AcmeUI-Devices/android_kernel_xiaomi_cas
+          kernel-branch: karatep
+          config: karatep_defconfig
+          arch: arm64
+      
       - name: Create img file
         run: |
           mkdir -p out/img
