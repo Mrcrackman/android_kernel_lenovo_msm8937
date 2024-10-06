@@ -22,10 +22,6 @@ jobs:
           sudo apt-get install -y curl git ftp lftp wget libarchive-tools ccache python2 python2-dev
           sudo apt-get install -y zip unzip tar gzip bzip2 rar unrar cpio jq
 
-      - name: Compile Kernel Image
-        run: |
-          make O=out ARCH=arm64 SUBARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-
-
       - name: configuration
         uses: dabao1955/kernel_build_action@main
         with:
@@ -33,6 +29,9 @@ jobs:
           kernel-branch: karatep
           config: karatep_defconfig
           arch: arm64
+          SUBARCH: arm64
+          CROSS_COMPILE: aarch64-linux-gnu-
+          CROSS_COMPILE_ARM32: arm-linux-gnueabi-
       
       - name: Create img file
         run: |
