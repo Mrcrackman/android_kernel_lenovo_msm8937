@@ -1,35 +1,21 @@
-name: mmoo
+name: CI
 
 on:
-  push:
-    tags: 'test'
+  workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-kernel:
+    name: Build Kernel
+    runs-on: ubuntu-20.04
     steps:
-    - name: Checkout kernel source
-      uses: actions/checkout@v2
-
-    - name: initial
-      uses: actions/checkout@v2
-      with:
-        repository: lemniskett/AnyKernel3
-        path: zipper
-
-    - name: Android kernel build
-      uses: lemniskett/android-kernel-actions@master
-      id: build
-      env:
-        NAME: Dark-Ages-Último
-      with:
-        arch: arm64
-        compiler: gcc/10
-        defconfig: karatep_defconfig
-        image: Image.gz-dtb
-
-    - name: Release build
-      uses: ncipollo/release-action@v1
-      with:
-        artifacts: ${{ steps.build.outputs.outfile }}
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build
+        uses: dabao1955/kernel_build_action@main
+        with:
+          kernel-url: https://github.com/MohamedDevvv/android_kernel_lenovo_msm8937
+          kernel-branch: lineage-18.1
+          config: karatep_defconfig
+          arch: arm64
+          aosp-gcc: true
+          aosp-clang: false
+          android-version: 11
+          aosp-clang-version: r383902
