@@ -19,3 +19,5 @@ jobs:
           aosp-clang: false
           android-version: 11
           aosp-clang-version: r383902
+          android-ndk: false
+          android-ndk-version: false
