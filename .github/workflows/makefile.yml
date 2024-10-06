@@ -1,35 +1,35 @@
-# A simple action usage
-name: Build Kernel
+name: lineage-18.1
+
 on:
-  workflow_dispatch:
+  push:
+    tags: 'test'
 
 jobs:
-  Build-Kernel:
-    strategy:
-      fail-fast: false
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
     steps:
-    - name: Build Kernel
-      uses: dabao1955/kernel_build_action@main
+    - name: Checkout kernel source
+      uses: actions/checkout@v2
+
+    - name: initial
+      uses: actions/checkout@v2
       with:
-          kernel-url: https://github.com/MohamedDevvv/android_kernel_lenovo_msm8937
-          kernel-dir: msm-3.18
-          kernel-branch: lineage-18.1
-          config: karatep_defconfig
-          arch: arm64
-          compiler: gcc/10
-          android-version: 11
-          disable-lto: true
-          anykernel3: true
-          
-    - name: Install dependencies
-      run: make
+        repository: lemniskett/AnyKernel3
+        path: zipper
 
-    - name: Run check
-      run: make check
+    - name: Android kernel build
+      uses: lemniskett/android-kernel-actions@master
+      id: build
+      env:
+        NAME: Dark-Ages-Último
+      with:
+        arch: arm64
+        compiler: gcc/10
+        defconfig: karatep_defconfig
+        image: Image.gz-dtb
 
-    - name: Run distcheck
-      run: make distcheck
+    - name: Release build
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: ${{ steps.build.outputs.outfile }}
+        token: ${{ secrets.GITHUB_TOKEN }}
