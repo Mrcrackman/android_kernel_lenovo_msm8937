@@ -24,7 +24,7 @@ jobs:
 
       - name: Compile Kernel Image
         run: |
-          make O=out ARCH=arm64 SUBARCH=arm64 karatep_defconfig CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- Image.gz-dtb
+          make O=out ARCH=arm64 SUBARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- Image.gz-dtb
 
       - name: configuration
         uses: dabao1955/kernel_build_action@main
