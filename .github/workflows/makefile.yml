@@ -1,35 +1,28 @@
-name: test
-
+# A simple action usage
+name: Build Kernel
 on:
-  push:
-    branches: [ "lineage-18.1" ]
-  pull_request:
-    branches: [ "lineage-18.1" ]
+  workflow_dispatch:
 
 jobs:
-    name: Build Kernel
-    runs-on: ubuntu-20.04
+  Build-Kernel:
+    strategy:
+      fail-fast: false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
     steps:
-      - name: test
-        uses: dabao1955/kernel_build_action@main
-        with:
+    - name: Build Kernel
+      uses: dabao1955/kernel_build_action@main
+      with:
           kernel-url: https://github.com/MohamedDevvv/android_kernel_lenovo_msm8937
+          kernel-dir: msm-3.18
           kernel-branch: lineage-18.1
           config: karatep_defconfig
           arch: arm64
           aosp-gcc: true
-          aosp-clang: true
+          aosp-clang: truu
           android-version: 11
           aosp-clang-version: r383902
-
-    - name: test
-      run: ./test
-
-    - name: Install dependencies
-      run: make
-
-    - name: Run check
-      run: make check
-
-    - name: Run distcheck
-      run: make distcheck
+          disable-lto: true
+          anykernel3: true
