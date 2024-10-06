@@ -7,7 +7,6 @@ on:
     branches: [ "lineage-18.1" ]
 
 jobs:
-build:
     name: Build Kernel
     runs-on: ubuntu-20.04
     steps:
@@ -15,7 +14,7 @@ build:
         uses: dabao1955/kernel_build_action@main
         with:
           kernel-url: https://github.com/MohamedDevvv/android_kernel_lenovo_msm8937
-          kernel-branch: taffy
+          kernel-branch: lineage-18.1
           config: karatep_defconfig
           arch: arm64
           aosp-gcc: true
