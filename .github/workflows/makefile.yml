@@ -20,10 +20,9 @@ jobs:
           kernel-branch: lineage-18.1
           config: karatep_defconfig
           arch: arm64
-          aosp-gcc: true
-          aosp-clang: truu
+          aosp-gcc: false
+          aosp-clang: false
           android-version: 11
-          aosp-clang-version: r383902
           disable-lto: true
           anykernel3: true
           
